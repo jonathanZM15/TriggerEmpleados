@@ -1,0 +1,42 @@
+-- Crear la tabla empleados
+CREATE TABLE empleados (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    puesto VARCHAR(50) NOT NULL
+);
+
+-- Crear la tabla log_empleados
+CREATE TABLE log_empleados (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    empleado_id INT NOT NULL,
+    accion VARCHAR(50) NOT NULL,
+    fecha DATETIME NOT NULL
+);
+
+-- El trigger para registrar inserciones
+DELIMITER //
+CREATE TRIGGER trigger_empleados_insert
+AFTER INSERT ON empleados
+FOR EACH ROW
+BEGIN
+    INSERT INTO log_empleados (empleado_id, accion, fecha)
+    VALUES (NEW.id, 'INSERT', NOW());
+END;
+//
+DELIMITER ;
+
+-- Insertar datos de prueba
+INSERT INTO empleados (nombre, puesto)
+VALUES ('Juan Pérez', 'Administrador'),
+       ('María López', 'Contadora'),
+       ('Carlos Gómez', 'Desarrollador');
+       
+
+ -- Ver los datos insertados 
+select * from empleados;
+
+ -- Ver los triggers creados
+SHOW TRIGGERS;
+
+ -- Eliminar un trigger
+DROP TRIGGER empleados.trigger_empleados_insert;
