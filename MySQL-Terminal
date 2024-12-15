@@ -1,0 +1,17 @@
+--Inicia sesión en MySQL--
+mysql -u root -p
+
+--Crear un Usuario--
+CREATE USER 'user1'@'localhost' IDENTIFIED BY '12345';
+
+--Asignar Permisos Específicos--
+GRANT SELECT, INSERT ON testdb.* TO 'user1'@'localhost';
+
+--Verificar los Permisos--
+SHOW GRANTS FOR 'user1'@'localhost';
+
+--Guarda los Permisos--
+FLUSH PRIVILEGES;
+
+--Salir de MySQL--
+Exit
